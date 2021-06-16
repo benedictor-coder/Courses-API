@@ -1,0 +1,106 @@
+.section-about {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+.content-left,
+.content-right {
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+}
+.row .col-1-of-2 {
+    width: calc((100% - 6rem)/2);
+    /*background: orangered;*/
+    float: left;
+}
+.composition {
+    position: relative;
+    margin-top: 5rem;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+    .composition:hover .composition__photo:not(:hover) {
+        transform: scale(.95);
+    }
+
+.composition__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem #777;
+    position: absolute;
+    transition: all .2s;
+    outline-offset: 1rem;
+}
+
+    .composition__photo:hover {
+        outline: 1.5rem solid rgba(126,213, 111, 0.8);
+        transform: scale(1.05) translateY(-.5rem);
+        box-shadow: 0 1.5rem 4rem #777;
+        z-index: 20;
+    }
+
+.composition__photo--1 {
+    left: 0;
+    top: -2rem;
+    z-index: 10;
+}
+
+.composition__photo--2 {
+    right: 0;
+    top: 2rem;
+    z-index: 10;
+}
+
+.composition__photo--3 {
+    left: 20%;
+    top: 10rem;
+    z-index: 10;
+}
+
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+.btn-text {
+    color: rgba(178, 0, 255, .85)
+}
+.btn-text:link, btn-text:visited {
+    width: 100%;
+    color: rgba(40, 180, 131, 0.8);
+    display: inline-block;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(40, 180, 131, 0.8);
+    padding: 3px;
+    font-size: 1.6rem;
+    transition: all .2s;
+}
+
+.btn-text:hover {
+    background-color: rgba(126,213, 111, 0.8);
+    color: #fff;
+    box-shadow: 0 1rem 2rem #777;
+    transform: translateY(-2px);
+    text-align: center;
+}
+
+.btn-text:active {
+    box-shadow: 0 .5rem 1rem #777;
+    transform: translateY(0);
+}

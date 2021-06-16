@@ -1,0 +1,77 @@
+.form-chat {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    direction: ltr;
+}
+
+.form__input--chat {
+    font-family: inherit;
+    /*font-size: 1.5rem;*/
+    font: 1.5rem 'Titillium Web';
+    color: inherit;
+    padding: 1.5rem 1rem;
+    border-radius: 2px 0 2px 2px;
+    background: rgba(255, 255, 255, .9);
+    border: none;
+    outline: none;
+    border-bottom: 3px solid transparent;
+    width: 100%;
+    display: block;
+    transition: all.5s;
+}
+
+    .form__input--chat:focus {
+        border: none;
+        outline: none;
+        box-shadow: 0 1rem 2rem rgba(255, 255, 255, .1);
+        border-bottom: 3px solid seagreen;
+    }
+
+    .form__input--chat::-webkit-input-placeholder {
+        color: #999;
+    }
+
+    .form__input--chat:focus:invalid {
+        border-bottom: 3px solid orangered;
+    }
+
+    .form__input--chat:placeholder-shown + .chat__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+.form__group--chat {
+    width: 70%;
+    height: 100%;
+    float: left;
+    border: none;
+    outline: none;
+}
+
+.form__group--btn {
+    width: 30%;
+    float: left;
+    height: 100%;
+}
+
+.btn--send--chat {
+    background-color: rgba(150, 0, 255, 0.8);
+    color: white;
+    width: 100%;
+    height: 5rem;
+    font-family: inherit;
+    font-size: 1.5rem;
+    border: 0;
+    border-radius: 0;
+    float: right;
+}
+
+    .btn--send--chat:hover {
+        background: rgba(10, 0, 40, .85);
+        transition: all .5s ease-in;
+    }
