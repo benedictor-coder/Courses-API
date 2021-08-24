@@ -1,14 +1,23 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import './App.css';
 import Popup from './components/popup/Popup';
+import SignIn from './components/signin/SignIn';
 const Header = lazy(() => import ('./components/header/Header'));
 const Content = lazy(() => import  ('./components/content/Content'));
 
-function App() {
+function App () {
     return (
         <div className="App">
-            <Popup/>
+            {/* <Popup title={
+                <Router>
+                    <Link to='' className="sign-up heading-secondary">
+                        SignUp
+                    </Link>
+                </Router>
+            }
+                content={ <SignIn /> }
+            /> */}
             <Router>
                 <Suspense fallback={
                     <div style={ { textAlign: 'center' } }>

@@ -10,6 +10,7 @@ import SignIn from '../signin/SignIn';
 import Booking from '../Booking/Booking';
 import ErrorBoundary from '../../error-boundary/ErrorBoundary';
 import PostData from '../postdata/PostData';
+import Report from '../reports/Report';
 
 function Pages () {
     return (
@@ -22,7 +23,8 @@ function Pages () {
                     <Route exact path='/main/information' component={ InfoSection } />
                     <Route exact path='/main/signin/' component={ SignIn } />
                     <Route exact path='/main/booking' component={ Booking } />
-                    <Route exact path='/main/posts' component={ PostData } />
+                    <Route exact path='/main/posts' component={PostData} />
+                    <Route exact path='/main/report' component={Report}/>
                 </Switch>
             </ErrorBoundary>
         </ScrollToBottom>

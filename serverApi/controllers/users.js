@@ -1,88 +1,139 @@
-﻿const {v4: uuidv4 } = require('uuid');
+﻿const { v4: uuidv4 } = require("uuid");
+// const { findByIdAndUpdate } = require("../models/Users");
+const Course = require("../models/Users");
 
-let users = [
-    {
-        "firstName": "Benedictor",
-        "lastName": "Milimu",
-        "age": 27
-    },
-    {
-        "firstName": "Ann",
-        "lastName": "Muhonja",
-        "age": 27
-    },
-    {
-        "firstName": "Brian",
-        "lastName": "Amisi",
-        "age": 27
+let courses = [];
+
+const getUsers = async (req, res, next) => {
+  await Course.find()
+    .then((results) => {
+      if (results.length > 0) {
+        res.send(results);
+
+        res.status(200).json({
+          message: "Success retrieving data from the database.",
+          success: true,
+          count: results.length,
+          data: results,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error) {
+        res.status(404).json({
+          title: "No data found",
+          success: false,
+          count: results.length,
+          data: [{}],
+        });
+
+        next(error);
+      }
+    });
+};
+
+const createUser = async (req, res, next) => {
+  try {
+    const course = req.body;
+
+    const courseId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+    const courseWithId = new Course({ id: courseId, ...course });
+
+    courses.push(courseWithId);
+
+    const newCourse = await Course.create(courseWithId);
+
+    res.status(200).json({
+      message: `New course with the id ${courseWithId.id} was added to the database`,
+      success: true,
+      data: newCourse,
+    });
+  } catch (error) {
+    if (error) {
+      res.status(400).json({
+        title: "ERROR",
+        success: false,
+        message: "Could not creat course in the database",
+      });
     }
-];
+    console.error("There was an error creating data to the database.", error);
+  } finally {
+    return next();
+  }
+};
 
-const getUsers = (req, res) => {
-    console.log(users);
-    res.send(users);
-}
+const getUserWithId = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const foundCourse = await Course.findById(req.params.id);
 
-const createUser = (req, res) => {
-    console.log("Post request made.");
+    if (foundCourse) {
+      res.status(200).json({
+        message: "Course found",
+        success: true,
+        course: foundCourse,
+      });
+    }
+  } catch (error) {
+    res.status(404).json({
+      title: "No course with id found",
+      sucess: false,
+      course: {},
+    });
+  }
+  next(error);
+};
 
-    const user = req.body;
-
-    const userId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-
-    const userWithId = { ...user, id: userId };
-
-    users.push(userWithId);
-
-    res.send(`New user with the name ${ user.firstName } was added to the database"`);
-}
-
-const getUserWithId = (req, res) => {
-
-    console.log(req.params);
-
+const deleteUserWithId = async (req, res, next) => {
+  try {
     const { id } = req.params;
+    const course = await Course.findById(req.params.id);
+    console.log(id);
 
-    const foundUser = users.find((user) => user.id === id);
+    coursesList = courses.filter((course) => course.id !== id);
+    console.log(coursesList);
 
-    res.send(foundUser);
-} 
-
-const deleteUserWithId = (req, res) => {
-    const { id } = req.params;
-
-    users = users.filter((user) => user.id !== id);
-
-    res.send(`User with the id ${ id } deleted from the database`);
-}
-
-const updateUserInfo = (req, res) => {
-    const { id } = req.params;
-
-    const { firstName, lastName, age } = req.body;
-
-    const user = users.find((user) => user.id === id);
-
-
-    if (firstName) {
-        user.firstName = firstName;
+    if (coursesList && !course) {
+      return next("There no such course with the Id provided.", 404);
     }
+    await course.remove();
 
-    if (lastName) {
-        user.lastName = lastName;
-    }
+    res.send(`Course with the id ${id} deleted from the database`);
+  } catch (error) {
+    next(error);
+  }
+};
 
-    if (age) {
-        user.age = age;
-    }
+const updateUserInfo = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    let { course, duration, tuition, approval, school, department } = req.body;
 
-    res.send(`User with the id ${ id } has been updated`);
-}
+    let theCourse = await Course.findById(req.params.id);
+    theCourse = await Course.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    theCourse.save();
+
+    res.status(200).json({
+      message: "Course has been updated successfully",
+      success: true,
+      newIfo: theCourse,
+    });
+  } catch (error) {
+    res.status(404).json({
+      title: "Could not update course with the id",
+      success: false,
+    });
+  }
+};
 
 module.exports = {
-    getUsers,
-    createUser,
-    getUserWithId,
-    deleteUserWithId,
-    updateUserInfo
-}
+  getUsers,
+  createUser,
+  getUserWithId,
+  deleteUserWithId,
+  updateUserInfo,
+};

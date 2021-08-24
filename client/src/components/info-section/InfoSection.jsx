@@ -8,7 +8,7 @@ function InfoSection () {
     return (
         <section className="section-about">
             <div className="u-center-text u-margin-bottom-big">
-                <h2 className="heading-secondary">
+                <h2 className="heading-tertiary">
                     Exciting tours for adventurous people
                 </h2>
             </div>

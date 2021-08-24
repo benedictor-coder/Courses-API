@@ -1,9 +1,8 @@
-.section-features {
-    width: 100%;
-    height: 100%;
+.section-cards {
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    align-items: center;
+    justify-content: center;
 }
 .row .col-1-of-4 {
     width: calc((100% - 1 * 6rem)/4);

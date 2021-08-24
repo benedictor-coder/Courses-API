@@ -1,0 +1,25 @@
+.table-section{
+    margin: .1rem;
+}
+.form__input--search-table {
+    width: 15rem;
+    height: 2rem;
+    padding: .5rem;
+    margin-right: .1rem;
+    border-radius: .3rem;
+    outline: none ;
+    border: none;
+    box-shadow: none;
+    background: #ccc;
+}
+small, .form__group--search label{
+    font-size: smaller;
+    padding: .1rem;
+    color: rgb(235, 60, 89);
+    margin-left: .1rem;
+}
+input[type="checkbox"] {
+    background-color: rgb(88, 188, 228);
+    margin-right: .3rem;
+    font-size: .7rem;
+}

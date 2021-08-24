@@ -1,0 +1,51 @@
+[
+    
+    {
+        "course": "CS",
+        "duration": "8semesters",
+        "tuition": 60000,
+        "approval": "ISO certified",
+        "school": "Computing and informatics",
+        "department": "Enterprise Computing"
+    },
+    {
+        "course": "IT",
+        "duration": "8semesters",
+        "tuition": 60000,
+        "approval": "KSA certified",
+        "school": "Information technology",
+        "department": "Information Technology"
+    },
+    {
+        "course": "Computerised systems",
+        "duration": "8semesters",
+        "tuition": 58000,
+        "approval": "KUPPS certified",
+        "school": "Computing and informatics",
+        "department": "Enterprise Computing"
+    },
+    {
+        "course": "DIT",
+        "duration": "4semesters",
+        "tuition": 30000,
+        "approval": "ISO certified",
+        "school": "Information technology",
+        "department": "Information Technology"
+    },
+    {
+        "course": "BCOM",
+        "duration": "6semesters",
+        "tuition": 52000,
+        "approval": "KAA certified",
+        "school": "School of Business Management",
+        "department": "Commerce"
+    },
+    {
+        "course": "Nursing",
+        "duration": "12semesters",
+        "tuition": 120000,
+        "approval": "KNC certified",
+        "school": "Medicine",
+        "department": "Nursing"
+    }
+]

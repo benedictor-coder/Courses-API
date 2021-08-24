@@ -1,0 +1,61 @@
+.posts-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+fieldset #registration__section{
+    width: 100%;
+    padding: .5rem;
+}
+hr {
+    margin: 1rem 0;
+}
+.form__control{
+    width: 100%;
+    padding: .5rem;
+    font-size: small;
+    outline: none;
+    border: 0;
+    /* border: .01rem solid; */
+    background-color: seashell;
+    color: rgba(0, 0, 0, .50);
+}
+#form_group--footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+#form_group--footer>
+.btn{
+    min-width: 5rem;
+    min-height: 2rem;
+    font-size: small;
+    font-family: inherit;
+    padding: .3rem;
+    text-align: center;
+}
+.btn__submit{
+    outline: none;
+    border: 0;
+    /* background-image: linear-gradient(to right bottom,
+        rgba(126,213, 111, 0.8),
+        rgba(40, 180, 131, 0.8)); */
+    background-image: linear-gradient(to right bottom, rgba(40, 180, 131, 0.8), rgba(13, 175, 83, .8));
+}
+.btn__close{
+    outline: none;
+    border: 0;
+    background-image: linear-gradient(to right bottom, rgba(230, 26, 26, 0.8), rgba(255, 27, 27, .8));
+}
+.btn__add {
+    min-width: 5rem;
+    min-height: 2rem;
+    font-size: medium;
+    font-family: inherit;
+    padding: .3rem;
+    text-align: center;
+    outline: none;
+    border: 0;
+    background-color: rgb(13, 175, 83);
+}

@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Link } from 'react-router-dom';
-import SignIn from '../signin/SignIn';
 import './Popup.css';
 
 function Popup (props) {
@@ -10,14 +8,10 @@ function Popup (props) {
             <div className="popup__content">
                 <div className="popup__body">
                     <div className="popup__header">
-                        <BrowserRouter>
-                            <Link to='' className="sign-up heading-secondary">
-                                SignUp
-                            </Link>
-                        </BrowserRouter>
+                        {props.title}
                         <button type="button" className="btn popup__close">&times;</button>
                     </div>
-                    <SignIn />
+                    {props.content}
                 </div>
             </div>
         </div>,

@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\components",
+    "\\client\\src\\components\\main-page",
+    "\\client\\src\\components\\modal",
+    "\\client\\src\\components\\popup",
+    "\\client\\src\\components\\postdata",
+    "\\client\\src\\components\\select",
+    "\\serverApi"
+  ],
+  "PreviewInSolutionExplorer": false
+}

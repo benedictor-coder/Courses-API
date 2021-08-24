@@ -9,6 +9,7 @@
     justify-content: flex-start;
     padding: 1rem 2rem 0 2rem;
     background-color: rgba(29, 0, 39, .8);
+    box-shadow: 0 5px 30px -10px #000;
 }
 
 .sidebar--heading {
@@ -52,7 +53,7 @@ form.search {
     width: 100%;
     height: 2rem;
     padding: 1rem;
-    border-radius: .3rem;
+    border-radius: 5rem;
     border: none;
     outline: none;
     box-shadow: none;

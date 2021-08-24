@@ -5,7 +5,7 @@ import image1 from '../../images/lap.jpg';
 function Cards () {
     return (
         <>
-            <section className="section-features">
+            <section className="section-cards">
                 <div className="row features-row">
                     <div className="col-1-of-4">
                         <div className="feature-box">

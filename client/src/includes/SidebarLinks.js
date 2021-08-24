@@ -27,5 +27,9 @@ export const SidebarLinks = [
     {
         title: "Posts",
         path: "/main/posts"
+    },
+    {
+        title: "Reports",
+        path: "/main/report"
     }
 ];
