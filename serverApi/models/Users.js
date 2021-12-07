@@ -1,45 +1,20 @@
 const mongoose = require("mongoose");
-// mongoose.set("bufferCommands", true);
 
 const Schema = mongoose.Schema;
 
-const CoursesSchema = new Schema({
-  course: {
+const Users = new Schema({
+  username: {
     type: String,
-    required: [true, "Please Provide Course Name"],
+    required: [true, "Enter your user name."],
   },
-  duration: {
+  password: {
     type: String,
-    required: [true, "Please Provide duration of the course"],
+    required: [true, "Enter correct password."],
   },
-  tuition: {
-    type: Number,
-    required: [true, "Please Provide tuition fees of the course"],
-  },
-  approval: {
+  role: {
     type: String,
-    required: [true, "Provide the approval for the course"],
-  },
-  school: {
-    type: String,
-    required: [true, "The course must have a school to belong"],
-  },
-  department: {
-    type: String,
-    required: [true, "Provide the department for the course"],
-  },
-  created: {
-    type: Date,
-    default: Date.now().toPrecision(),
-  },
-  intake: {
-    type: String,
-    required: [true, "Chose an intake"],
-  },
-  campus: {
-    type: String,
-    required: [true, "Select an campus"],
+    required: [true, "Choose role from the dropdown."],
   },
 });
 
-module.exports = mongoose.model("Courses", CoursesSchema);
+module.exports = mongoose.model("Users", Users);

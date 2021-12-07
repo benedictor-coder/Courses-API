@@ -1,0 +1,30 @@
+.report-section{
+    margin: .5rem 1rem;
+}
+.report-header {
+    margin: 1rem 0;
+    text-align: center;
+}
+/* .report-body{
+    font-size: 2rem;
+} */
+.report-aunthorized-by {
+    margin: 2rem 0;
+}
+.report_buttons {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: flex-end;
+}
+.report_buttons > :first-child {
+    margin-right: 2rem;
+}
+.btn__btn--download,
+.btn__btn--print {
+    min-width: 5rem;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: .5rem;
+}

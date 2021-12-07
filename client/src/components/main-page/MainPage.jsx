@@ -4,22 +4,24 @@ import './MainPage.css';
 import Modal from '../modal/Modal'
 
 function MainPage () {
-    const [courses, setCourses] = useState([]);
-    const [course, setCourse] = useState('');
+    const [sources, setSources] = useState([]);
+    const [source, setSource] = useState({});
     const [pageloading, setPageLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [query, setQuery] = useState("");
-    const [searchColumns, setSearchColumns] = useState(["course", "department"]);   
+    const [searchColumns, setSearchColumns] = useState(["source", "county"]);   
 
     useEffect(() => {
         setPageLoading(true);
 
         async function fetchData () {
-            await fetch('/posts', { method: 'GET', headers: new Headers() })
+            await fetch('/water-management/api/v1', {
+                method: 'GET', headers: new Headers()
+            })
                 .then(response => response.ok ? response.json() : null)
-                .then(courses => {
-                    setCourses(courses);
-                    console.log(courses)
+                .then(sources => {
+                    setSources(sources);
+                    console.log(sources)
                 })
                 .catch(err => {
                     console.log(err)
@@ -27,12 +29,16 @@ function MainPage () {
                 });
 
             return function cleanEffect () {
-                setCourses(courses =>  courses)
+                setSources(sources =>  sources)
             };
         }
+
         fetchData();
-        setPageLoading(false)
-    }, [setCourses]);
+
+        return () => setPageLoading(false)
+            // return pageloading;
+        
+    }, [setSources,pageloading]);
 
     const mountData = React.useRef(false);
     const modalRefEdit = React.useRef();
@@ -40,15 +46,16 @@ function MainPage () {
 
     function handleModalEdit () {
         !mountData.current ?
-            modalRefEdit.current.openModal() :
-            modalRefEdit.current.closeModal()
+        modalRefEdit.current.openModal() :
+        modalRefEdit.current.closeModal()
     }
    
-    function handleCourseEditing(id) {
-        const { _id } = courses[0];
+    function handleEditSource(id) {
+        const { _id } = sources[0];
         id = _id;
+        // alert(`Source with id: ${id} will be edited`)
         if (id) {
-            fetch(`/posts/${id}`, {
+            fetch(`/water-management/api/v1/${id}`, {
                 method: "PATCH",
                 headers: {
                     'Accept': 'application/json',
@@ -59,103 +66,106 @@ function MainPage () {
     }
     function handleModalView() {
         !mountData.current ?
-            modalRefView.current.openModal() :
-            modalRefView.current.closeModal();
+        modalRefView.current.openModal() :
+        modalRefView.current.closeModal();
     }
 
     async function handleViewDetails(id) {
-        const { _id } = courses[0];
+        let { _id } = sources[0];
         id = _id;
-            if (courses) {
-                // alert(id)
-                await fetch(`/posts/${id}`, {
-                    method: "GET",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    } || new Headers()
-                })
-                    .then(response => response.ok ? response.json() : null)
-                    .then(course => {
-                        setCourse(course);
-                        console.log(course)
-                    })
-                    .catch(err => {
-                        console.log('The course with the specified id does not exist')
-                        console.log(err)
-                    })
-            }
-            handleModalView()
-    }
-    const getCourse = courses.length > 0
-        ? courses.map(course => {
-            return <div key={course._id}>
-                <h5>{course.course}</h5>
-                <div>
-                    <ul key={course._id}>
-                        <li> ID: {course._id}</li>
-                        <li>Tuition: {course.tuition}</li>
-                        <li>Approved by:{course.approval}</li>
-                    </ul>
-                </div>
-            </div>
+        console.log(id)
+        if (sources) {
+            alert(id)
+            await fetch(`/water-management/api/v1/${id}`, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                } || new Headers()
             })
-        : null
-    function handleDelete(id) {
-        const { _id } = courses[0];
+                .then(response => response.ok ? response.json() : null)
+                .then(source => {
+                    setSource(source);
+                    console.log(source)
+                })
+                .catch(err => {
+                    console.log('The source with the specified id does not exist')
+                    console.log(err)
+                })
+        }
+
+        handleModalView()
+    }
+    const getSource = 
+                sources.length > 0
+                    ? sources.map((source) => {
+                        if (source) {
+                            return <div key={source._id}>
+                                <h5>{source.source}</h5>
+                                <div>
+                                    <ul key={source._id}>
+                                        <li> ID: {source._id}</li>
+                                        <li>Cost of water: {source.cost}</li>
+                                        <li>Approved by:{source.approval}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        return { source: source }
+                    })
+                :
+                null
+
+    async function handleDelete(id) {
+        const { _id } = sources[0];
         id = _id;
         if (id) {
-            // alert(id);
-            window.confirm(`WARNING!! \n      Item with id: ${id}  will be deleted.`);
-            fetch(`/posts/${id}`, {
+            window.confirm(`WARNING!!\nItem with id: ${id}  will be deleted.`);
+            await fetch(`/water-management/api/v1/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }
+                } || new Headers()
             }).then(res => {
-                alert('Deleted successfully')
-            })
+                if (res) {
+                    alert('Deleted successfully')
+                }
+            }).catch((err) => {
+                alert(err.message)
+            }) 
         }
     }
 
     const submitEditHandler = (e, id) => {
         e.preventDefault();
-
-        handleCourseEditing(id);
+        handleEditSource(id);
 
         modalRefEdit.current.closeModal();
     }
 
-    if (courses === []) {
-        return <p className="heading-secondary">Loading list of departments...</p>
+    if (sources === []) {
+        return <p className="heading-secondary">Loading list of water sources...</p>
     }
 
     function search(rows) {
         // const columns = rows[0] && Object.keys(rows[0]);
         return rows.filter(row =>
-            // row.course.toLowerCase().indexOf(query) > -1 ||
+            // row.source.toLowerCase().indexOf(query) > -1 ||
             // row.department.toLowerCase().indexOf(query) > -1
             searchColumns.some(column => row[column].toString().toLowerCase().indexOf(query.toLowerCase()) > -1)
         )
     }
 
-    const columns = courses[0] && Object.keys(courses[0]);
+    const columns = sources[0] && Object.keys(sources[0]);
 
     return (
         <div className="main-page">
-            <h1 className="heading-tertiary chat-heading">Content Section</h1>
-                What is Lorem Ipsum ?
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type
-                specimen book.It has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.It was popularised in
-                the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                and more recently with desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-
+            <h1 className="heading-tertiary">Water Sources</h1>
             <div className='table-section'>
+                <div className="add__data add_water_source">
+                    <input type="button" className="btn btn__add" value="Add water source"/>
+                </div>
                 <form htmlFor="search-table" className="search__table">
                     <div className="form__group--search">
                         <>
@@ -185,31 +195,40 @@ function MainPage () {
                         }
                     </div>
                 </form>
-                <Table data={search(courses)}
+                <Table data={search(sources)}
                     actions={<th>Actions</th>}
                     buttons={
                         <div style={ { width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" } }>
                             <input type="submit" onClick={ () => handleModalEdit() } className="btn btn-edit" value="Edit" />
-                            <input type="button" onClick={() => handleViewDetails()} className="btn btn-view" value="View"/>
+                            {/* <input type="button" onClick={(id) => handleViewDetails(id)} className="btn btn-view" value="View"/> */}
                             <input type="button" className="btn btn-delete" onClick={(id) => handleDelete(id)} value="Delete"/>
                         </div>
                     }
-                />
+                    page={<>Page 1</>}
+                >
+                    {
+                        <>
+                            <caption>
+                                List of water sources
+                            </caption>
+                        </>
+                    }
+                    </Table>
             {
                 errorMsg ? <div><h6 className="heading-primary">{ errorMsg }</h6></div> : null
             }
             </div>
-            <Modal ref={ modalRefEdit }>
+            <Modal ref={modalRefEdit}>
                 <fieldset>
-                    <legend style={ { textAlign: "center" } }><h4 style={ { margin: "0 .5rem" } }>Edit course</h4></legend>
+                    <legend style={ { textAlign: "center" } }><h4 style={ { margin: "0 .5rem" } }>Edit water source</h4></legend>
                     <hr />
                     <div className="registration__section" id="registration__section">
                         <form htmlFor="registration_form" className="registration__form" method="POST" onSubmit={ (e, id) => submitEditHandler(e, id) }>
                             <div className="form__group" id="form_group">
                             <input type="text"
                                 className="form__control"
-                                id="course" name="course"
-                                placeholder="Enter course name..."
+                                id="source" name="source"
+                                placeholder="Enter source name..."
                                 
                             />
                         </div>
@@ -237,7 +256,6 @@ function MainPage () {
                                 id="approval"
                                 name="approval"
                                 placeholder="Approval..."
-                               
                             />
                         </div>
                         <div className="form__group" id="form_group">
@@ -245,7 +263,7 @@ function MainPage () {
                                 className="form__control"
                                 id="school"
                                 name="school"
-                                placeholder="School for the course..."
+                                placeholder="School for the source..."
                                 
                             />
                         </div>
@@ -269,17 +287,15 @@ function MainPage () {
             </Modal>
             <Modal ref={ modalRefView }>
                 <fieldset>
-                    <legend style={ { textAlign: "center" } }><h4 style={ { margin: "0 .5rem" } }>Course details</h4></legend>
+                    <legend style={ { textAlign: "center" } }><h4 style={ { margin: "0 .5rem" } }>Water source details</h4></legend>
                     {/* <hr /> */}
                     <div className="registration__section" id="registration__section">
-                        <form htmlFor="registration_form" className="registration__form">
-                                {getCourse}
-                            <hr />
-                            <div className="form__group" id="form_group--footer">
-                                {/* <input type="submit" className="btn btn__submit" value="Submit" /> */}
-                                <input type="button" className="btn btn__close" value="Close" onClick={ () => modalRefView.current.closeModal() } />
-                            </div>
-                        </form>
+                        {getSource}
+                        <hr />
+                        <div className="form__group" id="form_group--footer">
+                            {/* <input type="submit" className="btn btn__submit" value="Submit" /> */}
+                            <input type="button" className="btn btn__close" value="Close" onClick={ () => modalRefView.current.closeModal() } />
+                        </div>
                     </div>
                 </fieldset>
             </Modal>

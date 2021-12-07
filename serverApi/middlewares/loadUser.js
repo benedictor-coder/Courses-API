@@ -1,4 +1,4 @@
-const loadUser = () => {
+const loadUser = (req, res, next) => {
   let user = req.params.id;
   let loginState;
   if (user) {

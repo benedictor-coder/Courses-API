@@ -9,7 +9,7 @@ function Popup (props) {
                 <div className="popup__body">
                     <div className="popup__header">
                         {props.title}
-                        <button type="button" className="btn popup__close">&times;</button>
+                        {/* <button type="button" className="btn popup__close">&times;</button> */}
                     </div>
                     {props.content}
                 </div>

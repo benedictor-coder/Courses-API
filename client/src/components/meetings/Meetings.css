@@ -1,0 +1,75 @@
+.meetings_section {
+    display: flex;
+    flex-direction:row;
+    align-items: flex-start;
+    justify-content:center; 
+}
+.meeting_sections {
+    /* display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center; */
+    padding: 0 0 1rem 1rem;
+}
+.meetings_section--right {
+    
+}
+.meeting-title{
+    color: greenyellow;
+}
+.meetings_lists{
+    padding: 1rem;
+    font-size: 14px;
+    font-stretch: narrower;
+    box-shadow: none;
+}
+.meeting_essentials ul>li{
+    color: azure;
+    cursor: default;
+}
+.form_group {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    padding: .2rem .5rem; 
+    font-size: small; 
+}
+.form_group label{
+    width: 100px;
+    text-align: left;
+}
+.meeting_form_control {
+    width: 10rem;
+    margin: 0 .5rem;
+    padding: .5rem;
+    height: 3rem;
+    display: flex;
+    border-radius: .5rem;
+    text-align: center;
+    background-color: rgba(235, 232, 232, 0.8);
+    border: transparent;
+    font-size: 0.75rem;
+}
+.meeting_btns {
+    width: 7rem auto;
+    padding: .2rem;
+    border-radius: .3rem;
+    outline:none;
+    border: transparent;
+    margin: 0 .5rem;
+}
+.meetings_btns-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+}
+.btn__cancel{
+    padding: .5rem;
+    outline: none;
+    border: 0;
+    background: rgb(187, 1, 1);
+}

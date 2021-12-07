@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\..\\..\\xampp\\htdocs\\node-express-course-main"
+		},
+		{
+			"name": "03-task-manager",
+			"path": "..\\..\\..\\..\\..\\..\\..\\..\\..\\xampp\\htdocs\\node-express-course-main\\03-task-manager"
+		}
+	],
+	"settings": {}
+}

@@ -1,35 +1,35 @@
-﻿const { v4: uuidv4 } = require("uuid");
-// const { findByIdAndUpdate } = require("../models/Users");
-const Course = require("../models/Users");
+﻿"use strict";
+const { v4: uuidv4 } = require("uuid");
 
-let courses = [];
+const Users = require("../models/Users");
+
+let users = [];
 
 const getUsers = async (req, res, next) => {
-  await Course.find()
-    .then((results) => {
-      if (results.length > 0) {
-        res.send(results);
-
-        res.status(200).json({
-          message: "Success retrieving data from the database.",
-          success: true,
-          count: results.length,
-          data: results,
-        });
-      }
-    })
-    .catch((error) => {
-      if (error) {
-        res.status(404).json({
-          title: "No data found",
-          success: false,
-          count: results.length,
-          data: [{}],
-        });
-
-        next(error);
-      }
-    });
+  let users = await Users.find();
+  try {
+    results(
+      users.length > 0
+        ? res.send(users)
+        : res.status(200).json({
+            message: "Success retrieving data from the database.",
+            success: true,
+            count: users.length,
+            data: users,
+          })
+    );
+  } catch (error) {
+    errorClause(
+      error
+        ? res.status(400).json({
+            title: "No data found",
+            success: false,
+            count: users.length,
+            data: [{}],
+          })
+        : next()
+    );
+  }
 };
 
 const createUser = async (req, res, next) => {
@@ -49,39 +49,83 @@ const createUser = async (req, res, next) => {
       data: newCourse,
     });
   } catch (error) {
-    if (error) {
-      res.status(400).json({
-        title: "ERROR",
-        success: false,
-        message: "Could not creat course in the database",
-      });
-    }
+    errorClause(
+      error
+        ? res.status(400).json({
+            title: "ERROR",
+            success: false,
+            message: "Could not creat course in the database",
+          })
+        : null
+    );
     console.error("There was an error creating data to the database.", error);
-  } finally {
-    return next();
+  }
+};
+
+const loginUser = async (req, res, next) => {
+  try {
+    const { username, password, role } = req.body;
+
+    if (!username || !password || !role) {
+      return next("Please provide your USERNAME, PASSWORD and ROLE", 400);
+    }
+    // await Users.findOne({ username: username, role: role }, (err, user) => {
+    //   if (user) {
+    //     if (password === user.password) {
+    //       console.log("Login Successful", user);
+    //     } else {
+    //       console.log("WRONG CREDENTIALS");
+    //     }
+    //   } else {
+    //     console.log("PLEASE REGISTER AS A NEW USER.");
+    //   }
+    // });
+
+    const user = await Users.findOne({
+      username: username,
+      role: role,
+      password: password,
+    });
+
+    if (!user) {
+      return next("INVALID USER. PLEASE CHECK YOUR DETAILS.", 401);
+    } else {
+      res.send("user successfully logged in");
+      console.log("USER LOGIN SUCCESS", user);
+    }
+  } catch (err) {
+    console.error(err, "\nCOULD NOT GET THIS USER.");
   }
 };
 
 const getUserWithId = async (req, res, next) => {
-  const { id } = req.params;
   try {
-    const foundCourse = await Course.findById(req.params.id);
+    const { _id } = req.params;
+    const findUser = await Users.findById(req.params.id);
 
-    if (foundCourse) {
-      res.status(200).json({
-        message: "Course found",
-        success: true,
-        course: foundCourse,
-      });
+    if (findUser) {
+      results(
+        findUser
+          ? res.status(200).json({
+              message: "User found",
+              success: true,
+              user: findUser,
+            })
+          : null
+      );
+      return;
     }
   } catch (error) {
-    res.status(404).json({
-      title: "No course with id found",
-      sucess: false,
-      course: {},
-    });
+    errorClause(
+      error
+        ? res.status(404).json({
+            title: "No user with id found",
+            sucess: false,
+            user: {},
+          })
+        : null
+    );
   }
-  next(error);
 };
 
 const deleteUserWithId = async (req, res, next) => {
@@ -99,8 +143,17 @@ const deleteUserWithId = async (req, res, next) => {
     await course.remove();
 
     res.send(`Course with the id ${id} deleted from the database`);
+    s;
   } catch (error) {
-    next(error);
+    errorClause(
+      error
+        ? res.status(404).json({
+            title: "No course with id found",
+            sucess: false,
+            course: {},
+          })
+        : null
+    );
   }
 };
 
@@ -109,30 +162,53 @@ const updateUserInfo = async (req, res, next) => {
   try {
     let { course, duration, tuition, approval, school, department } = req.body;
 
-    let theCourse = await Course.findById(req.params.id);
-    theCourse = await Course.findByIdAndUpdate(req.params.id, req.body, {
+    let courseToUpdate = await Course.findById(req.params.id);
+    courseToUpdate = await Course.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
 
-    theCourse.save();
+    courseToUpdate.save();
 
-    res.status(200).json({
-      message: "Course has been updated successfully",
-      success: true,
-      newIfo: theCourse,
-    });
+    results(
+      courseToUpdate
+        ? res.status(200).json({
+            message: "Course has been updated successfully",
+            success: true,
+            newIfo: courseToUpdate,
+          })
+        : null
+    );
   } catch (error) {
-    res.status(404).json({
-      title: "Could not update course with the id",
-      success: false,
-    });
+    errorClause(
+      error
+        ? res.status(404).json({
+            title: "Could not update course with the id",
+            success: false,
+          })
+        : null
+    );
   }
 };
 
+//cross-check retrieved database feedback
+function results(results) {
+  if (results) {
+    return results;
+  }
+  return;
+}
+//catch errors on data retrieval
+function errorClause(error) {
+  if (error) {
+    return error;
+  }
+  return;
+}
+
 module.exports = {
   getUsers,
-  createUser,
+  loginUser,
   getUserWithId,
   deleteUserWithId,
   updateUserInfo,

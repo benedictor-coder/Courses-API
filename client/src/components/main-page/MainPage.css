@@ -23,3 +23,9 @@ input[type="checkbox"] {
     margin-right: .3rem;
     font-size: .7rem;
 }
+.add__data{
+    display: flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:flex-end;
+}

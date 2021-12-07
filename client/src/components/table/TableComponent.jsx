@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Table.css';
-import MainPage  from '../main-page/MainPage';
 
-function Table ({data, actions, buttons, error}) {
-    const [state, setState] = useState();
-    const { handleDelete } = MainPage;
+function Table ({data, actions, buttons, error, ...props}) {
+
     const columns = data[0] && Object.keys(data[0]);
     
     
     return (
         <table className="table" cellPadding={0} cellSpacing={0}>
-            <caption> List of departments</caption>
+            {props.children}
             <thead>
                 <tr>
                     {data[0] && columns.map((heading, index) => <th key={index}>{heading}</th>)}
@@ -30,7 +28,7 @@ function Table ({data, actions, buttons, error}) {
             </tbody>
             <tfoot>
                 <tr>
-                    <td>Page 1 </td>
+                    <td> { props.page}</td>
                 </tr>
             </tfoot>
         </table>

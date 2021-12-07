@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
@@ -31,16 +32,16 @@ const options = {
 };
 const callback = (err) => {
   if (err) {
-    console.error("CONNECTION ERROR", err);
+    console.error(err, "CONNECTION ERROR");
   }
   console.log("Connection Success");
 };
-const dbConnection = async () => {
+const connectDB = async (uri) => {
   const conn = await mongoose.connect(hostURI, options, callback());
 
   console.log(
-    `MongoDB connected at ${conn.connection.host}: ${conn.connection.id}`
+    `MongoDB connected at ${conn.connection.host}: ${conn.connection.id + 1}`
   );
 };
 
-module.exports = dbConnection;
+module.exports = connectDB;

@@ -4,7 +4,9 @@ table {
     margin: .1rem;
     display: table;
     table-layout: auto;
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
+    table-layout: auto;
+    
 }
 thead {
     width: auto;
