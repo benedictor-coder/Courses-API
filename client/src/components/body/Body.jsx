@@ -9,7 +9,7 @@ function Body () {
                 <Container />
             </div>
             <div className="body-content-bottom body__content--footer">
-
+                This is the footer
             </div>
         </section>
     );

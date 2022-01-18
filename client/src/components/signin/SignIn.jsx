@@ -1,59 +1,56 @@
-import React, { useState, useCallback,useEffect } from 'react';
-import {useHistory } from "react-router-dom";
+import React, { useState, useCallback, useEffect } from 'react';
+import { useHistory, Redirect} from "react-router-dom";
 import './SignIn.css';
+import Signin from '../signin/SignIn'
 
 function SignIn() {
     const history = useHistory()
-    const [ username, setUsername ] = useState(() => emptyString());
-    const [ password, setPassword ] = useState(() => emptyString());
-    const [ role, setRole ] = useState(() => emptyString());
+    const [ username, setUsername ] = useState("");
+    const [ password, setPassword ] = useState("");
+    const [ role, setRole ] = useState("");
 
+    const [user, setUser] = useState({})
     const [disabled, setDisabled] = useState(false);
-    // let popup = document.querySelector('.popup');
 
-    // login state
-    const [ isLoggedIn, setIsLoggedIn ] = useState(() => {
-        return false;
-    });
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
-    function emptyString () {
-        return "";
-    }
+    const [checked, setChecked] = useState("")
+    const [rememberPassword, setRememeberPassword] = useState(false)
 
-    const handleLogin = useCallback( e => {
+
+    const handleLogin = useCallback( (e) => {
         e.preventDefault();
-
+        let loginErrors = document.querySelector('.login-error');
+        
         if (!username || !password || !role) {
-            alert("Provide username, password and your role.");
+            // alert("Login failure")
+            loginErrors.innerHTML= `<h6>Login Failure! &rarr; Provide <u>Username</u>, <u>Password</u> & <u>Role</u>.</h6>`;
+            loginErrors.style.display = "block";
             return isLoggedIn
         }
 
         if (username.length < 3 && !isLoggedIn) {
-            alert("Username is too short.");
+        //     alert("Username is too short.");
+            loginErrors.innerHTML = `<h6> Username is too short</h6>`;
+            loginErrors.style.display = "block";
             return isLoggedIn;
         }
+
         if (password.length < 6 && !isLoggedIn) {
-            alert("Password is too short.")
+            // alert("Password is too short.")
+            loginErrors.innerHTML = `<h6> Password is too short</h6>`;
+            loginErrors.style.display = "block";
             return isLoggedIn;
         }
 
         if (!role) {
             alert("Select your role.")
+            loginErrors.innerHTML = `<h6> Please select your role.</h6>`
+            loginErrors.display = "block"
             return isLoggedIn;
         }
-        // if(!isLoggedIn) {
-        //   const redirect_to_home = () => {
-        //     window.location.href="http://localhost:3000/home";
-        //     setIsLoggedIn(true)
-        //     return !isLoggedIn && setIsLoggedIn ? removePopupOnLoggin() : null;
-        //   }
-        //   redirect_to_home()
-        // }
-        //     const removePopupOnLoggin = () => {
-        //     popup.style.opacity = 0;
-        //     popup.style.visibility = 'hidden';
-        //     popup.remove();
-        //      }
+
+        
         const userData = {
             "username": username,
             "password": password,
@@ -71,39 +68,123 @@ function SignIn() {
                 .then((res) => {
                 if(!isLoggedIn && res.ok) {
                     setTimeout(() => {
-                        alert("Login successful.\nWelcome.")
-                        setIsLoggedIn(true)
-                        history.push('/home')
+                        if (localStorage.getItem('token')) {
+                            alert("Login successful.\n\nWelcome.")
+                            setIsLoggedIn(true)
+                            setDisabled(false)
+                            history.push('/home')
+                        }
+                        else {
+                            alert("No token found for this login.")
+                            setIsLoggedIn(false)
+                            setDisabled(true)
+                            localStorage.clear()
+                            history.push('/signin')
+                            window.location.reload()
+                        }
                     }, 500)
                 } else if(!res.ok) {
                     setTimeout(() => {
-                        alert("Invalid Login Details!!!\nCheck details and try again")
-                        history.push('/signin')
-                        setIsLoggedIn(false)
+                        loginErrors.innerHTML = "<h6>Invalid Login Details ! <br/> Check details and try again</h6>";
+                        loginErrors.style.display = "block";
+
+                        console.error(`Bad login request: ${res.status}`);
+                        setUsername("");
+                        setPassword("");
+                        setRole("");
+                        setIsLoggedIn(false);
+                        setDisabled(true);
+                        
+                        localStorage.clear();
+                        // history.push('/signin');
+                        <Redirect push to={Signin}/>
+                        window.location.reload()
                     }, 1000)
                 }
-            })
+                }).then(res => {
+                    setUser(res)
+                    const generateId = () => Math.random().toString(36).substr(2, 36)
+                    return localStorage.setItem("token", generateId())
+                })
                 .catch(err => {
-                    console.log("ERROR RETRIEVING DATA FROM THE SERVER.\n", err)
-            })
+                    console.log("ERROR ON LOGIN.\n", err.message)
+                    setIsLoggedIn(false)
+                    setDisabled(true)
+                    return localStorage.clear();
+                })
         }
-
+        // if (user) {
+        //     return <div>{user.firstname} is logged in.</div>
+        // }
         if (!disabled) {
             userLogin();
             return setIsLoggedIn(true)
         } else {
             setDisabled(true)
+            setIsLoggedIn(false)
         }
 
         return () => setIsLoggedIn(true)
 
-    }, [username, password, role, disabled, history, isLoggedIn])
+    }, [username, password, role, disabled, history, isLoggedIn,])
+    
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem("token")
+        if (loggedInUser) {
+            const foundUser = JSON.parse(loggedInUser)
+            setUser(foundUser)
+        }
+    }, [])
 
+    const handleRememberme = useCallback((e) => {
+        const userData = {
+            "username": setUsername(e.target.value),
+            "password": setPassword(e.target.value),
+            "role": setRole(e.target.value)
+        };
+
+        if (e.target.checked === checked) {
+            return rememberPassword
+        }
+        if (username && password && role) {
+            setUsername(userData.username)
+            setPassword(userData.password)
+            setRole(userData.role)
+        }
+        setChecked(e.target.checked)
+        setRememeberPassword(true)
+        return;
+    },[checked,rememberPassword, username, password, role])
+
+      // cancel user login
+    function cancelLogin() {
+        let loginErrors = document.querySelector('.login-error');
+            const resetInput = () => {
+                setUsername("");
+                setRole("");
+                setPassword("");
+                loginErrors.style.display = "none";
+        }
+
+        return resetInput()
+    }
     return (
-        <div className="join-container">
+        <div className="login-container">
             <div className="join-chat-container">
-                <h1 className="chat-heading">Sign In</h1>
-                <form htmlFor="signup-form" method="POST" name="login_form" id="login_form" className="signup-form" onSubmit={e => { return handleLogin (e)}}>
+                <div className="login-form-section">
+                    <h1 className="chat-heading"><strong>Sign In</strong></h1>
+                <form htmlFor="signup-form"
+                    method="POST" name="login_form"
+                    id="login_form"
+                    className="signup-form"
+                        onSubmit={e => { return handleLogin(e) }}
+                    >
+                    <hr style={{ marginBottom: ".5rem" }} />
+                    <div className="col-1-of-1 login-error"
+                            id="login-error"
+                        >
+                            {/* login error section */}
+                    </div>
                     <div className="form--group">
                         <input type="text"
                             value={username}
@@ -113,7 +194,7 @@ function SignIn() {
                             className="join-input"
                             inputMode="text"
                             placeholder="Username"
-                            required
+                            // required
                         />
                         <label htmlFor="name-input" className="form-label">Username </label>
                     </div>
@@ -126,36 +207,51 @@ function SignIn() {
                             className="join-input mt-20"
                             inputMode="none"
                             placeholder="Password"
-                            required />
+                                // required
+                            />
                         <label htmlFor="room-label" className="form-label"> Password </label>
                     </div>
                     <div className="form--group">
-                        <select
+                        <input
                             value={role}
                             onChange={(event) => setRole(event.target.value)}
                             id="role"
                             name="role"
+                            list="roles"
                             className="join-input mt-20"
                             inputMode="none"
-                            required>
-                            <option value="--select role--" defaultValue>Select Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <label htmlFor="role-label" className="form-label"> Role </label>
+                            placeholder="Role"
+                                // required
+                            />
+                            <label htmlFor="role-label" className="form-label"> Role </label>
+                            <datalist id="roles">
+                                <option value="admin"></option>
+                                <option value="user"></option>
+                                <option value="other"></option>
+                            </datalist>
                     </div>
-                    <div className="form--group join__footer--btn">
-                        <button type="submit" className="btn btn--signin mt-20"> Sign in</button>
-                    </div>
-                    <div className="form--group">
-                        <input type="checkbox" style={{marginRight:".5rem"}}/>
+                    {/* <div className="form--group mt-20">
+                        <input type="checkbox"
+                            name="remember"
+                            id="remember"
+                                className="remember_me_checkbox"
+                                checked={checked}
+                            onChange={ (e) => handleRememberme(e)}
+                        />
                         <label htmlFor="remember-me">Remember me.</label>
+                    </div> */}
+                        <hr style={{marginBottom:"1rem"}}/>
+                    <div className="form--group join__footer--btn">
+                            <button type="submit" className="btn btn--signin"> Sign in</button>
+                            <input type="reset" className="btn btn__close btn__cancel--login" value="Cancel"
+                            onClick={() => cancelLogin() }
+                            />
                     </div>
+                    {/* <a href="#" className="forgotten_auth">Forgot username & password?</a> */}
                 </form>
-                {/* <Link to="" className="sign-up heading-secondary">
-                    Forgot Details?
-                </Link> */}
+                
+                </div>
+                
             </div>
         </div>
     );

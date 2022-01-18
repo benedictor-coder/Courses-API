@@ -1,0 +1,7 @@
+.btn__lock--user {
+    background:green;
+}
+.btn__unlock--user {
+    background:rgba(29, 0, 39, .8);
+    background-image: linear-gradient(to right bottom rgba(10, 2, 15, 0.8), rgba(29, 0, 39, .8));
+}

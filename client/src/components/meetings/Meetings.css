@@ -2,23 +2,34 @@
     display: flex;
     flex-direction:row;
     align-items: flex-start;
-    justify-content:center; 
+    justify-content:center;
 }
 .meeting_sections {
-    /* display: flex;
-    flex-direction: column;
-    align-items:center;
-    justify-content: center; */
     padding: 0 0 1rem 1rem;
 }
 .meetings_section--right {
-    
+width:25%;
+float:right;
+padding:0 .5rem;
+}
+.meetings_section--left {
+     width: 75%;
+     float:left;
+
+}
+.meeting-content {
+    margin: 2rem 0;
+    padding: 2rem 1rem;
+     box-shadow: 0 .2rem .5rem .2rem hsl(250deg, 100%, 90%);
+     border-left: .5rem solid rgba(200, 0, 255, 0.8);
+     border-radius: .5rem 0 0 .5rem;
 }
 .meeting-title{
     color: greenyellow;
 }
 .meetings_lists{
-    padding: 1rem;
+    height: 100%;
+    padding: 1rem .5rem 3rem .5rem;
     font-size: 14px;
     font-stretch: narrower;
     box-shadow: none;
@@ -33,12 +44,14 @@
     align-items: center;
     justify-content: space-evenly;
     align-content: center;
-    padding: .2rem .5rem; 
-    font-size: small; 
+    padding: 1rem .5rem;
+    font-size: small;
 }
 .form_group label{
     width: 100px;
     text-align: left;
+    color: black;
+    font-size: .85rem;
 }
 .meeting_form_control {
     width: 10rem;
@@ -60,16 +73,35 @@
     border: transparent;
     margin: 0 .5rem;
 }
+.btns--view {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items:center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
 .meetings_btns-group {
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: flex-end;
-    
+
 }
 .btn__cancel{
     padding: .5rem;
     outline: none;
     border: 0;
     background: rgb(187, 1, 1);
+}
+.btn__delete--meeting, .btn__review--meeting {
+    min-width: 4rem;
+    max-width: 8rem;
+    /* width: 6rem; */
+    float: right;
+    margin: .5rem;
+    padding: .3rem;
+    font-size: .8rem;
+    font-weight: bold;
+    letter-spacing: .1px;
 }

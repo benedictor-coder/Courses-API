@@ -18,11 +18,17 @@ router
     [
       check("source")
         .isLength({ min: 3 })
-        .withMessage("Course can not be less than 3 xters long."),
+        .withMessage("Water source can not be less than 3 characters long."),
       check("source")
         .isString()
         .trim()
-        .withMessage("Course can not be a number."),
+        .withMessage("Water source can not be a number."),
+      check("source_type")
+        .isString()
+        .trim()
+        .withMessage(
+          "The type of water source can not be less than 3 characters long."
+        ),
       check("region").isString().trim(),
       check("cost").isNumeric().trim().escape().toInt(),
       check("approval").isString().trim(),
@@ -31,14 +37,14 @@ router
       check("date").isDate(),
       check("ward").isString().trim(),
       check("location").isString().trim(),
+      check("water_level").isString().trim(),
+      check("ph").isString().trim(),
     ],
     createWaterSource
   );
 
-router
-  .route("/:id")
-  .get(getWaterSourceWithId)
-  .delete(deleteWaterSourceWithId)
-  .patch(updateWaterSource); //patch is used for partial update
+router.get("/source/:id", getWaterSourceWithId);
+router.delete("/source/:id", deleteWaterSourceWithId);
+router.patch("/source/:id", updateWaterSource); //patch is used for partial update
 
 module.exports = router;

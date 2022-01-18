@@ -12,38 +12,38 @@ export const SidebarLinks = [
     title: "Water Sources",
     path: "/main/water-sources",
   },
+  // {
+  //   title: "Bore Holes",
+  //   path: "/main/bore-holes",
+  // },
+  // {
+  //   title: "Wells",
+  //   path: "/main/wells",
+  // },
+  // {
+  //   title: "Meetering",
+  //   path: "/main/meetering",
+  // },
   {
-    title: "Bore Holes",
-    path: "/main/bore-holes",
+    title: "Sampling",
+    path: "/main/water-sampling",
   },
   {
-    title: "Wells",
-    path: "/main/wells",
-  },
-  {
-    title: "Meetering",
-    path: "/main/meetering",
-  },
-  {
-    title: "Treatement plants",
-    path: "/main/water-treatment-plants",
-  },
-  {
-    title: "Water catchments",
-    path: "/main/water-catchments",
+    title: "Analysis",
+    path: "/main/water-analysis",
   },
   {
     title: "Projects",
     path: "/main/projects",
   },
   {
-    title: "Organize Meetings",
+    title: "Meetings",
     path: "/main/meetings",
   },
-  {
-    title: "Plumbing",
-    path: "/main/plumbing",
-  },
+  // {
+  //   title: "Field Work",
+  //   path: "/main/fieldwork",
+  // },
   // {
   //   title: "Booking",
   //   path: "/main/booking",
@@ -60,8 +60,8 @@ export const SidebarLinks = [
     title: "Reports",
     path: "/main/report",
   },
-  {
-    title: "Posts",
-    path: "/main/posts",
-  },
+  // {
+  //   title: "Posts",
+  //   path: "/main/posts",
+  // },
 ];

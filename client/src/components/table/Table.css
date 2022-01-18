@@ -54,21 +54,32 @@ caption {
     width: 100%;
     text-align: left;
 }
+.actions_btns {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
 .btn-view {
-    background-color: orange;
+    background-image: linear-gradient(to right bottom, hsl(15, 100%, 50%),orangered);
+    background-color: hsl(15, 100%, 50%);
 }
 .btn-edit{
-    background: rgb(88, 188, 228);
+    background-image: linear-gradient(to right bottom, rgb(5, 143, 199) rgb(20, 164, 221));
+    background: rgb(20, 164, 221);
 }
 .btn-delete{
-    background: rgb(235, 60, 89);
+    background-color: rgba(170, 31, 31, 0.9);
+    background-image: linear-gradient(to right bottom, rgba(170, 31, 31, 0.9), rgba(255, 27, 27, .8));
 }
 .btn-edit, .btn-view, .btn-delete {
-    margin: 0 .1rem;
-    font-size: .7rem;
+    min-width: 50px;
+    margin: 0 0 0 .1rem;
+    font-size: .8rem;
     font-weight:100;
     font-stretch: narrower;
-    padding: .2rem;
+    padding: .2rem .25rem;
     border: 0;
     outline: none;
 }

@@ -1,11 +1,54 @@
-.join-container {
-    width: 100%;
-    height: 100%;
+.login-container {
+    width: 100vw;
+    height: 100vh;
     padding: 30px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: rgb(230, 229, 229);
+    /* background-image: linear-gradient(to right bottom, hsl(0, 0%, 100%), rgb(230, 229, 229)); */
+    background-image:linear-gradient(to right bottom, rgba(50, 55, 112, 0.8), rgba(50, 55, 130, 0.8)),
+    url(../../images/pierre-chatel-innocenti-pxoZSTdAzeU-unsplash.jpg);
+    background-position: top;
+    background-size:cover;
+    background-repeat: no-repeat;
+}
+.login-error {
+    width: 100%;
+    margin: 0 0 .5rem 0;
+    background-color: lightpink;
+    color: red;
+    min-height: 50px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: grid;
+    align-items: self-start;
+    display: none;
+    font-size: 1.5rem;
+}
+.login-success {
+    background-color: seagreen;
+}
+.login-form-section {
+    /* min-width: 70%; */
+    max-width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* box-shadow: 0 .2rem .5rem .2rem hsl(250deg, 100%, 90%); */
+    min-height: 50%;
+    max-height: 100%;
+    border-left: .5rem solid rgba(200, 0, 255, 0.8);
+    /* border-bottom: .5rem solid rgba(200, 0, 255, 0.8); */
+    background: #ffffffff;
+    background-image: linear-gradient(to right bottom, hsl(0, 0%, 100%), rgb(230, 229, 229));
+    border-radius: .5rem 0 0 .5rem;
+    /* border-radius: .5rem */
 }
 
 .chat-heading {
@@ -22,24 +65,31 @@
 
 .join-input {
     font-family: inherit;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: inherit;
-    padding: 1.5rem 1rem;
+    padding: .5rem 1rem;
     border-radius: 2px;
-    background: rgba(255, 255, 255, .5);
+    background:#E6E6E6;
     border: none;
     border-bottom: 3px solid transparent;
     width: 100%;
+    height: 50px;
     display: block;
-    transition: all.5s;
+    transition: all .5s;
+    border: #999 .5px solid;
 }
 
     .join-input:focus {
         outline: none;
         box-shadow: 0 1rem 2rem rgba(255, 255, 255, .1);
+        border: none;
         border-bottom: 3px solid rgb(0 255 33);
+        background: rgba(255, 255, 255, .5);
     }
 
+    .join-input:active{
+        border: none;
+    }
     .join-input::-webkit-input-placeholder {
         color: #999;
     }
@@ -48,7 +98,7 @@
         border-bottom: 3px solid rgb(255 106 0)
     }
 
-    .join-input:placeholder-shown + .form-label {
+    .join-input:placeholder-shown + .form-label{
         opacity: 0;
         visibility: hidden;
         transform: translateY(-4rem);
@@ -68,7 +118,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
     .join__footer--btn > a {
         width: 100%;
@@ -77,10 +127,11 @@
         background-color: rgba(10, 0, 40, .85);
         color: white;
         width: 100%;
-        height: 100px;
+        height: 60px;
+        margin-right: .5rem;
         font-family: inherit;
-        padding: 1rem;
-        font-size: 1.5rem;
+        padding: .5rem 1rem;
+        font-size: 1.2rem;
         border: 0;
         border-radius: 3px;
     }
@@ -89,3 +140,22 @@
         background: rgba(10, 0, 90, .8);
         transition: all .5s ease-in;
     }
+    .remember_me_checkbox {
+        margin-right: .5rem;
+        outline: .1rem rgba(10, 0, 40, .85) solid;
+    }
+    .btn__cancel--login{
+        background-color: #dc3545;
+        color: white;
+        width: 100%;
+        height: 60px;
+        margin-left: .5rem;
+        font-family: inherit;
+        padding: .5rem 1rem;
+        font-size: 1.2rem;
+        border: 0;
+        border-radius: 3px;
+    }
+ .forgotten_auth{
+     padding: 0 2rem;
+ }

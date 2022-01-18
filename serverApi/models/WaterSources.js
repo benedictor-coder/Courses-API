@@ -8,6 +8,10 @@ const WaterSourceSchema = new Schema({
     type: String,
     required: [true, "Please Provide Course Name"],
   },
+  source_type: {
+    type: String,
+    required: [true, "Provide water type of source for the water"],
+  },
   region: {
     type: String,
     required: [true, "Please Provide duration of the course"],
@@ -30,7 +34,7 @@ const WaterSourceSchema = new Schema({
   },
   created: {
     type: Date,
-    default: Date.now().toPrecision(),
+    default: new Date(),
   },
   ward: {
     type: String,
@@ -39,6 +43,14 @@ const WaterSourceSchema = new Schema({
   location: {
     type: String,
     required: [true, "Select an campus"],
+  },
+  water_level: {
+    type: String,
+    required: [true, "Provide the level of the wate source."],
+  },
+  ph: {
+    type: String,
+    required: [true, "Provide pH level of the water"],
   },
 });
 

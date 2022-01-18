@@ -22,7 +22,7 @@ function App() {
             path="/"
             render={() => {
               return !isLoggedIn && setIsLoggedIn(true) ? null : (
-                <Redirect to="/signin" />
+                <Redirect push to="/signin" />
               );
             }}
           />

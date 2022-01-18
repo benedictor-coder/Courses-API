@@ -1,7 +1,7 @@
 import React from 'react';
 import './Table.css';
 
-function Table ({data, actions, buttons, error, ...props}) {
+function Table ({data, actions,buttons, error, ...props}) {
 
     const columns = data[0] && Object.keys(data[0]);
     
@@ -24,7 +24,8 @@ function Table ({data, actions, buttons, error, ...props}) {
                         <td>
                             {buttons}
                         </td>
-                    </tr>)}
+                    </tr>
+                )}
             </tbody>
             <tfoot>
                 <tr>

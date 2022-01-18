@@ -36,12 +36,42 @@ const callback = (err) => {
   }
   console.log("Connection Success");
 };
-const connectDB = async (uri) => {
-  const conn = await mongoose.connect(hostURI, options, callback());
 
-  console.log(
-    `MongoDB connected at ${conn.connection.host}: ${conn.connection.id + 1}`
-  );
+const connectionString = `mongodb://localhost:27017/${database}`;
+
+const connectDB = async () => {
+  const conn = await mongoose.connect(hostURI, options, callback());
+  // console.log(
+  //   `MongoDB connected at ${conn.connection.host}: ${conn.connection.id + 1}`
+  // );
+
+  // const conn = await mongoose.createConnection(
+  //   connectionString,
+  //   options,
+  //   callback()
+  // );
+
+  if (conn) {
+    console.log(`Localhost connected`);
+    console.log(
+      `MongoDB connected at ${mongoose.connection.host}: ${mongoose.connection.id + 1}`
+    );
+  } else {
+    conn.close(() => {
+      console.log("CONNECTION CLOSED");
+    });
+  }
+
+  mongoose.connection.on("error", (err) => {
+    console.log("Mongoose connection error", err);
+  });
+
+  process.on("SIGINT", () => {
+    mongoose.connection.close(() => {
+      console.log("\nMongoose disconnected through app termination.\n");
+      process.exit(0);
+    });
+  });
 };
 
 module.exports = connectDB;

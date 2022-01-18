@@ -1,14 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Report.css'
-function Report(props) {
+
+function Report(props){
+    const [reports, setReports] = useState();
+
+    const reportContent =
+        (report, index) => {
+            return <>
+                     <tr>
+                        <td>1</td>
+                        <td>Bore holes</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Wells </td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Water Sources</td>
+                        <td>800</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Projects</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Treatment plants</td>
+                        <td>1</td>
+                    </tr>
+                </>
+        }
     return (
         <div>
             <h1 className="heading-tertiary">Reports</h1>
             <fieldset className="report-fieldset">
-                <legend style={{ textAlign: "center" }}>Report for the year, 2021</legend>
+                <legend style={{ textAlign: "center", padding: "0 .5rem", textDecoration: "underline" }}>
+                    <h4>Report for the year &rarr; 
+                    {(() =>  {
+                    const date = new Date()
+                    const year = date.getFullYear()
+                    return year;
+                })()}</h4></legend>
                 <div className="report-section">
                     <div className="report-header">
-                        <h1 className="heading-tertiary"> Water management report</h1>
+                        <h1 className="heading-tertiary"> Water data management report</h1>
                         <span>
                             <h2>Nzoia Water Company</h2>
                         </span>
@@ -23,14 +62,15 @@ function Report(props) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                {reportContent()}
+                                {/* <tr>
                                     <td>1</td>
                                     <td>Bore holes</td>
                                     <td>200</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Wells dug</td>
+                                    <td>Wells </td>
                                     <td>100</td>
                                 </tr>
                                 <tr>
@@ -47,7 +87,7 @@ function Report(props) {
                                     <td>5</td>
                                     <td>Treatment plants</td>
                                     <td>1</td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                         <ul className="report-aunthorized-by">
@@ -61,7 +101,7 @@ function Report(props) {
                         <input type="button" className="btn btn-view btn__btn--print" value="Print" />
                     </div>
                 </div>
-                
+
             </fieldset>
         </div>
     );

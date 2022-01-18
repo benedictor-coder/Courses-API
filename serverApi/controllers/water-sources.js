@@ -6,7 +6,13 @@ const WaterSource = require("../models/WaterSources");
 let waterSources = [];
 
 const getAllWaterSources = async (req, res, next) => {
-  let results = await WaterSource.find();
+  let results = await WaterSource.find().select([
+    "-__v",
+    "-created",
+    "-county",
+    "-sub_county",
+    "-ward",
+  ]);
   try {
     results(
       results.length > 0
@@ -67,50 +73,47 @@ const createWaterSource = async (req, res, next) => {
 
 const getWaterSourceWithId = async (req, res, next) => {
   try {
-    const { _id, source, cost, approval } = req.params;
+    const { id: sourceId } = req.params;
     // const foundSourse = await WaterSource.findById(req.params.id);
-    const foundSourse = await WaterSource.findOne();
-    if (foundSourse) {
+    const source = await WaterSource.findOne({ _id: sourceId });
+    if (source) {
       results(
-        foundSourse
+        source
           ? res.status(200).json({
               message: "Water source found",
               success: true,
-              waterSource: foundSourse,
-            })
-          : null
-      );
-    } else {
-      errorClause(
-        !foundSourse
-          ? res.status(404).json({
-              title: "No water source with id found",
-              sucess: false,
-              waterSource: {},
+              waterSource: source,
             })
           : null
       );
     }
   } catch (error) {
-    console.error(err, "Could not get source data.");
+    errorClause(
+      !source
+        ? res.status(404).json({
+            title: "No water source with id found",
+            sucess: false,
+            waterSource: {},
+          })
+        : null
+    );
   }
 };
 
 const deleteWaterSourceWithId = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id: sourceId } = req.params;
 
-    const water_source_to_delete = await WaterSource.findById(req.params.id);
-    console.log(id);
+    const water_source_to_delete = await WaterSource.findByIdAndDelete({
+      _id: sourceId,
+    });
+    console.log(sourceId);
 
-    //sourcesList = waterSources.filter((source) => source.id !== id);
-    // console.log(sourcesList);
-
-    if (!water_source_to_delete) {
-      return next("There no such water source with the Id provided.", 404);
-    } else {
-      await water_source_to_delete.remove();
-    }
+    // if (water_source_to_delete) {
+    //   await water_source_to_delete.remove();
+    // } else {
+    //   return next(`No water source with Id: ${sourceId}`, 404);
+    // }
   } catch (error) {
     errorClause(
       error
@@ -125,39 +128,32 @@ const deleteWaterSourceWithId = async (req, res, next) => {
 };
 
 const updateWaterSource = async (req, res, next) => {
-  const { id } = req.params;
+  const { id: sourceId } = req.params;
   try {
-    let {
-      _id,
-      date,
-      source,
-      region,
-      cost,
-      approval,
-      county,
-      sub_county,
-      ward,
-      location,
-    } = req.body;
-
-    let updateWaterSource = await WaterSource.findById(req.params.id);
-    updateWaterSource = await WaterSource.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+    let updateSource = await WaterSource.findOneAndUpdate(
+      { _id: sourceId },
+      {
+        $set: {
+          source: req.body.source,
+          cost: req.body.cost,
+          water_level: req.body.water_level,
+          ph: req.body.ph,
+        },
+      },
       {
         new: true,
         runValidators: true,
       }
     );
 
-    updateWaterSource.save();
+    updateSource.save();
 
     results(
-      updateWaterSource
+      updateSource
         ? res.status(200).json({
             message: "Water source has been updated successfully",
             success: true,
-            newIfo: updateWaterSource,
+            data: req.body,
           })
         : null
     );
@@ -167,6 +163,7 @@ const updateWaterSource = async (req, res, next) => {
         ? res.status(404).json({
             title: "Could not update water source with the id",
             success: false,
+            data: {},
           })
         : null
     );

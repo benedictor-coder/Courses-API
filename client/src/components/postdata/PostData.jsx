@@ -79,7 +79,7 @@ function PostData() {
         }
         return () => mountData.current = true;
     }
-    
+
     const modalRef = React.useRef();
 
     function handleModal() {
@@ -128,7 +128,7 @@ function PostData() {
         clearInput()
         modalRef.current.openModal()
     }
-    
+
     let data = {
         "source": source,
         "region": region,
@@ -168,7 +168,7 @@ function PostData() {
             })
     }
 
-    
+
     const submitHandler = (e) => {
             e.preventDefault();
 
